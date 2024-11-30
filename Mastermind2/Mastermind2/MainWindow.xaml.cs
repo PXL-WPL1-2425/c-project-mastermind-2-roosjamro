@@ -45,8 +45,9 @@ namespace Mastermind2
 
         private void CheckCode_Click(object sender, RoutedEventArgs e)
         {
-
-            List<string> playerGuess = new List<string>
+            if (pogingen < 10)
+            {
+                List<string> playerGuess = new List<string>
                 {
                 ComboBox1.SelectedItem?.ToString(),
                 ComboBox2.SelectedItem?.ToString(),
@@ -54,23 +55,28 @@ namespace Mastermind2
                 ComboBox4.SelectedItem?.ToString()
                 };
 
-            for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
+                {
+                    if (!secretCode.Contains(playerGuess[i]))
+                    {
+                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Gray;
+                    }
+                    else if (secretCode.Contains(playerGuess[i]) && secretCode[i] != playerGuess[i])
+                    {
+                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Wheat;
+                        score += 1;
+                    }
+                    else
+                    {
+                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.DarkRed;
+                        score += 2;
+                    }
+                }
+            } else
             {
-                if (!secretCode.Contains(playerGuess[i]))
-                {
-                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Gray;
-                }
-                else if (secretCode.Contains(playerGuess[i]) && secretCode[i] != playerGuess[i])
-                {
-                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Wheat;
-                    score += 1;
-                }
-                else
-                {
-                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.DarkRed;
-                    score += 2;
-                }
+                MessageBox.Show("Je hebt de code niet geraden in 10 keer.");
             }
+            
             pogingen++;
             UpdateTitle();
             ScoreText.Text = $"Score: {score}";
