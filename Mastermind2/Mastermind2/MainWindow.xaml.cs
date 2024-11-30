@@ -76,14 +76,41 @@ namespace Mastermind2
                 }
                 pogingen++;
                 UpdateTitle();
+                if (Label1.BorderBrush == Brushes.DarkRed &&
+                    Label2.BorderBrush == Brushes.DarkRed &&
+                    Label3.BorderBrush == Brushes.DarkRed &&
+                    Label4.BorderBrush == Brushes.DarkRed)
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt gewonnen, wil je opnieuw beginnen?\n" +
+                        $"Je hebt {pogingen} pogingen nodig gehad\n" +
+                        $"De code was {string.Join(", ", secretCode)}", "Game over", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        StartGame();
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
+                }
                 ScoreText.Text = $"Score: {score}";
+                History();
             }
             else
             {
-                MessageBox.Show("Je hebt de code niet geraden in 10x.");
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt vies verloren, net zoals STVV tegen Genk, wil je opnieuw beginnen?\n" +
+                    $"De code was {string.Join(", ", secretCode)}", "Game over", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    StartGame();
+                }
+                else
+                {
+                    this.Close();
+                }
             }
 
-            History();
+           
         }
 
         private List<string> GenerateRandomCode()
@@ -160,7 +187,8 @@ namespace Mastermind2
             Title = $"Mastermind Game - Pogingen: {pogingen}";
             ResetComboBox();
             currentAttempt = 1;
-
+            pogingenGrid.RowDefinitions.Clear();
+            pogingenGrid.Children.Clear();
         }
 
         private void ResetLabelBorders()
