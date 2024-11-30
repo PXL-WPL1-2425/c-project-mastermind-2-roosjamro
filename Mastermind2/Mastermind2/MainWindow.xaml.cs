@@ -234,7 +234,7 @@ namespace Mastermind2
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.A && !debugMode)
             {
                 codeTextBlock.Visibility = Visibility.Visible;
-                debugMode = true;
+                debugMode = true; 
             }
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.A && debugMode)
             {
