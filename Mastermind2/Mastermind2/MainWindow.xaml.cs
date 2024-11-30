@@ -22,7 +22,7 @@ namespace Mastermind2
     {
         private List<string> availableColors = new List<string> { "Red", "Yellow", "Orange", "White", "Green", "Blue" };
         private List<string> secretCode = new List<string>();
-        private int score = 0;
+        private int score = 100;
 
         int pogingen;
         bool debugMode = false;
@@ -62,16 +62,16 @@ namespace Mastermind2
                     if (!secretCode.Contains(playerGuess[i]))
                     {
                         (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Gray;
+                        score -= 2;
                     }
                     else if (secretCode.Contains(playerGuess[i]) && secretCode[i] != playerGuess[i])
                     {
                         (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Wheat;
-                        score += 1;
+                        score -= 1;
                     }
                     else
                     {
                         (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.DarkRed;
-                        score += 2;
                     }
                 }
                 pogingen++;
@@ -152,7 +152,7 @@ namespace Mastermind2
             secretCode = GenerateRandomCode();
             codeTextBlock.Text = $"Secret Code: {string.Join(", ", secretCode)}";
             PopulateComboBoxes();
-            score = 0;
+            score = 100;
             ScoreText.Text = $"Score: {score}";
             ResetLabelBorders();
             ResetLabelBackground();
