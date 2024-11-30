@@ -22,12 +22,10 @@ namespace Mastermind2
     {
         private List<string> availableColors = new List<string> { "Red", "Yellow", "Orange", "White", "Green", "Blue" };
         private List<string> secretCode = new List<string>();
-        private int score = 100;
+        private int score = 0;
 
         int pogingen;
         bool debugMode = false;
-
-        int currentAttempt;
 
         //DispatcherTimer timer;
         //TimeSpan elapsedTime;
@@ -47,9 +45,8 @@ namespace Mastermind2
 
         private void CheckCode_Click(object sender, RoutedEventArgs e)
         {
-            if (pogingen < 10)
-            { 
-                List<string> playerGuess = new List<string>
+
+            List<string> playerGuess = new List<string>
                 {
                 ComboBox1.SelectedItem?.ToString(),
                 ComboBox2.SelectedItem?.ToString(),
@@ -57,60 +54,26 @@ namespace Mastermind2
                 ComboBox4.SelectedItem?.ToString()
                 };
 
-                for (int i = 0; i < 4; i++)
-                {
-                    if (!secretCode.Contains(playerGuess[i]))
-                    {
-                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Gray;
-                        score -= 2;
-                    }
-                    else if (secretCode.Contains(playerGuess[i]) && secretCode[i] != playerGuess[i])
-                    {
-                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Wheat;
-                        score -= 1;
-                    }
-                    else
-                    {
-                        (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.DarkRed;
-                    }
-                }
-                pogingen++;
-                UpdateTitle();
-                if (Label1.BorderBrush == Brushes.DarkRed &&
-                    Label2.BorderBrush == Brushes.DarkRed &&
-                    Label3.BorderBrush == Brushes.DarkRed &&
-                    Label4.BorderBrush == Brushes.DarkRed)
-                {
-                    MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt gewonnen, wil je opnieuw beginnen?\n" +
-                        $"Je hebt {pogingen} pogingen nodig gehad\n" +
-                        $"De code was {string.Join(", ", secretCode)}", "Game over", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (messageBoxResult == MessageBoxResult.Yes)
-                    {
-                        StartGame();
-                    }
-                    else
-                    {
-                        this.Close();
-                    }
-                }
-                ScoreText.Text = $"Score: {score}";
-                History();
-            }
-            else
+            for (int i = 0; i < 4; i++)
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt verloren, wil je opnieuw beginnen?\n" +
-                    $"De code was {string.Join(", ", secretCode)}", "Game over", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (!secretCode.Contains(playerGuess[i]))
                 {
-                    StartGame();
+                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Gray;
+                }
+                else if (secretCode.Contains(playerGuess[i]) && secretCode[i] != playerGuess[i])
+                {
+                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.Wheat;
+                    score += 1;
                 }
                 else
                 {
-                    this.Close();
+                    (FindName($"Label{i + 1}") as Label).BorderBrush = Brushes.DarkRed;
+                    score += 2;
                 }
             }
-
-           
+            pogingen++;
+            UpdateTitle();
+            ScoreText.Text = $"Score: {score}";
         }
 
         private List<string> GenerateRandomCode()
@@ -179,16 +142,14 @@ namespace Mastermind2
             secretCode = GenerateRandomCode();
             codeTextBlock.Text = $"Secret Code: {string.Join(", ", secretCode)}";
             PopulateComboBoxes();
-            score = 100;
+            score = 0;
             ScoreText.Text = $"Score: {score}";
             ResetLabelBorders();
             ResetLabelBackground();
             pogingen = 0;
             Title = $"Mastermind Game - Pogingen: {pogingen}";
             ResetComboBox();
-            currentAttempt = 1;
-            pogingenGrid.RowDefinitions.Clear();
-            pogingenGrid.Children.Clear();
+
         }
 
         private void ResetLabelBorders()
@@ -198,7 +159,6 @@ namespace Mastermind2
                 Label label = (Label)FindName($"Label{i}");
                 label.BorderBrush = Brushes.Transparent;
             }
-
         }
 
         private void ResetComboBox()
@@ -234,82 +194,12 @@ namespace Mastermind2
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.A && !debugMode)
             {
                 codeTextBlock.Visibility = Visibility.Visible;
-                debugMode = true; 
+                debugMode = true;
             }
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.A && debugMode)
             {
                 codeTextBlock.Visibility = Visibility.Hidden;
                 debugMode = false;
-            }
-        }
-
-        private void History()
-        {
-
-            currentAttempt = pogingen - 1;
-
-            RowDefinition attemptRow = new RowDefinition();
-            attemptRow.Height = GridLength.Auto;
-            pogingenGrid.RowDefinitions.Add(attemptRow);
-
-            Label attempt1 = new Label();
-            attempt1.Background = Label1.Background;
-            attempt1.BorderBrush = Label1.BorderBrush;
-            attempt1.BorderThickness = Label1.BorderThickness;
-            attempt1.Height = 50;
-            attempt1.Width = 50;
-            attempt1.Margin = new Thickness(5);
-            Grid.SetRow(attempt1, currentAttempt);
-            Grid.SetColumn(attempt1, 0);
-
-            Label attempt2 = new Label();
-            attempt2.Background = Label2.Background;
-            attempt2.BorderBrush = Label2.BorderBrush;
-            attempt2.BorderThickness = Label2.BorderThickness;
-            attempt2.Height = 50;
-            attempt2.Width = 50;
-            attempt2.Margin = new Thickness(5);
-            Grid.SetRow(attempt2, currentAttempt);
-            Grid.SetColumn(attempt2, 1);
-
-            Label attempt3 = new Label();
-            attempt3.Background = Label3.Background;
-            attempt3.BorderBrush = Label3.BorderBrush;
-            attempt3.BorderThickness = Label3.BorderThickness;
-            attempt3.Height = 50;
-            attempt3.Width = 50;
-            attempt3.Margin = new Thickness(5);
-            Grid.SetRow(attempt3, currentAttempt);
-            Grid.SetColumn(attempt3, 2);
-
-            Label attempt4 = new Label();
-            attempt4.Background = Label4.Background;
-            attempt4.BorderBrush = Label4.BorderBrush;
-            attempt4.BorderThickness = Label4.BorderThickness;
-            attempt4.Height = 50;
-            attempt4.Width = 50;
-            attempt4.Margin = new Thickness(5);
-            Grid.SetRow(attempt4, currentAttempt);
-            Grid.SetColumn(attempt4, 3);
-
-            pogingenGrid.Children.Add(attempt1);
-            pogingenGrid.Children.Add(attempt2);
-            pogingenGrid.Children.Add(attempt3);
-            pogingenGrid.Children.Add(attempt4);
-
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MessageBoxResult antwoord = MessageBox.Show("Ben je zeker dat je wil afsluiten?", "Afsluiten", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (antwoord == MessageBoxResult.Yes)
-            {
-                e.Cancel = false;
-            }
-            else
-            {
-                e.Cancel = true;
             }
         }
     }
