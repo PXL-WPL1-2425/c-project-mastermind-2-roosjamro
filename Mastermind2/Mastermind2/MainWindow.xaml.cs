@@ -75,11 +75,10 @@ namespace Mastermind2
             } else
             {
                 MessageBox.Show("Je hebt de code niet geraden in 10 keer.");
-            }
-            
-            pogingen++;
+            }          
             UpdateTitle();
             ScoreText.Text = $"Score: {score}";
+            History();
         }
 
         private List<string> GenerateRandomCode()
@@ -208,5 +207,59 @@ namespace Mastermind2
                 debugMode = false;
             }
         }
+
+        private void History()
+        {
+            RowDefinition attemptRow = new RowDefinition();
+            attemptRow.Height = GridLength.Auto;
+            pogingenGrid.RowDefinitions.Add(attemptRow);
+
+            Label attempt1 = new Label();
+            attempt1.Background = Label1.Background;
+            attempt1.BorderBrush = Label1.BorderBrush;
+            attempt1.BorderThickness = Label1.BorderThickness;
+            attempt1.Height = 50;
+            attempt1.Width = 50;
+            attempt1.Margin = new Thickness(5);
+            Grid.SetRow(attempt1, pogingen);
+            Grid.SetColumn(attempt1, 0);
+
+            Label attempt2 = new Label();
+            attempt2.Background = Label2.Background;
+            attempt2.BorderBrush = Label2.BorderBrush;
+            attempt2.BorderThickness = Label2.BorderThickness;
+            attempt2.Height = 50;
+            attempt2.Width = 50;
+            attempt2.Margin = new Thickness(5);
+            Grid.SetRow(attempt2, pogingen);
+            Grid.SetColumn(attempt2, 1);
+
+            Label attempt3 = new Label();
+            attempt3.Background = Label3.Background;
+            attempt3.BorderBrush = Label3.BorderBrush;
+            attempt3.BorderThickness = Label3.BorderThickness;
+            attempt3.Height = 50;
+            attempt3.Width = 50;
+            attempt3.Margin = new Thickness(5);
+            Grid.SetRow(attempt3, pogingen);
+            Grid.SetColumn(attempt3, 2);
+
+            Label attempt4 = new Label();
+            attempt4.Background = Label4.Background;
+            attempt4.BorderBrush = Label4.BorderBrush;
+            attempt4.BorderThickness = Label4.BorderThickness;
+            attempt4.Height = 50;
+            attempt4.Width = 50;
+            attempt4.Margin = new Thickness(5);
+            Grid.SetRow(attempt4, pogingen);
+            Grid.SetColumn(attempt4, 3);
+
+            pogingen++;
+            pogingenGrid.Children.Add(attempt1);
+            pogingenGrid.Children.Add(attempt2);
+            pogingenGrid.Children.Add(attempt3);
+            pogingenGrid.Children.Add(attempt4);
+        }
+
     }
 }
