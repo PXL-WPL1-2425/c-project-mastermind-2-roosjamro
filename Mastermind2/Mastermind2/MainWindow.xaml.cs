@@ -290,5 +290,18 @@ namespace Mastermind2
             pogingenGrid.Children.Add(attempt4);
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult antwoord = MessageBox.Show("Ben je zeker dat je wil afsluiten?", "Afsluiten", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (antwoord == MessageBoxResult.Yes)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
