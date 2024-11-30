@@ -30,6 +30,13 @@
         <TextBlock x:Name="codeTextBlock" HorizontalAlignment="Center"></TextBlock>
 
         <!--<TextBlock x:Name="timerTextBlock"></TextBlock> -->
-
+        <Grid Name="pogingenGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
     </StackPanel>
 </Window>
