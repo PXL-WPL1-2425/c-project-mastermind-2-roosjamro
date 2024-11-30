@@ -98,7 +98,7 @@ namespace Mastermind2
             }
             else
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt vies verloren, net zoals STVV tegen Genk, wil je opnieuw beginnen?\n" +
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Je hebt verloren, wil je opnieuw beginnen?\n" +
                     $"De code was {string.Join(", ", secretCode)}", "Game over", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
@@ -297,6 +297,20 @@ namespace Mastermind2
             pogingenGrid.Children.Add(attempt3);
             pogingenGrid.Children.Add(attempt4);
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult antwoord = MessageBox.Show("Ben je zeker dat je wil afsluiten?", "Afsluiten", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (antwoord == MessageBoxResult.Yes)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
