@@ -20,7 +20,7 @@ namespace Mastermind2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<string> availableColors = new List<string> { "Red", "Yellow", "Orange", "White", "Green", "Blue" };
+        private List<string> availableColors = new List<string> { "LightBlue", "Turquoise", "CadetBlue", "CornflowerBlue", "PaleTurquoise", "LightSkyBlue" };
         private List<string> secretCode = new List<string>();
         private int score = 100;
 

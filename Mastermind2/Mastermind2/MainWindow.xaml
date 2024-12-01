@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown" Closing="Window_Closing">
     <StackPanel Margin="20">
+
+        <StackPanel.Background>
+            <ImageBrush ImageSource="C:\Users\roosj\Source\Repos\c-project-mastermind-2-roosjamro\Mastermind2\Mastermind2\images\WISH LIST.jpeg" Opacity="0.2"/>
+        </StackPanel.Background>
+
         <TextBlock Text="Mastermind Game" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
